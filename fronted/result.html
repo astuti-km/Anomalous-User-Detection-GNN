@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav>
+    <h2>⚡ AnomalyAI</h2>
+    <div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+    </div>
+</nav>
+
+<div class="glass-card">
+
+    <h1>🔍 Prediction Result</h1>
+
+    <h2 id="resultText"></h2>
+    <p id="subText"></p>
+
+    <button onclick="goBack()">⬅ Try Again</button>
+
+</div>
+
+<script>
+    let result = localStorage.getItem("result");
+
+    let resultText = document.getElementById("resultText");
+    let subText = document.getElementById("subText");
+
+    // typing animation
+    let i = 0;
+    function typeEffect(text) {
+        if (i < text.length) {
+            resultText.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(() => typeEffect(text), 40);
+        }
+    }
+
+    typeEffect(result);
+
+    // color + message
+    setTimeout(() => {
+        if(result === "Anomalous User"){
+            resultText.style.color = "#ff4d4d";
+            subText.innerText = "⚠️ Suspicious activity detected. This user may be risky.";
+        } else {
+            resultText.style.color = "#4dff88";
+            subText.innerText = "✅ User behavior is normal and safe.";
+        }
+    }, 500);
+
+    function goBack() {
+        window.location.href = "index.html";
+    }
+</script>
+
+</body>
+</html>
