@@ -15,11 +15,16 @@ document.getElementById("analyzeBtn").addEventListener("click", async () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                data: data
+                data: data   // ✅ MUST BE "data"
             })
         });
 
+        if (!response.ok) {
+            throw new Error("Server error");
+        }
+
         let result = await response.json();
+        console.log("API result:", result); // 🔥 DEBUG
 
         let popup = document.getElementById("popup");
         let text = document.getElementById("popupResult");
@@ -39,6 +44,6 @@ document.getElementById("analyzeBtn").addEventListener("click", async () => {
 
     } catch (error) {
         console.error("Error:", error);
-        alert("Backend not responding");
+        alert("Backend error or wrong request");
     }
 });

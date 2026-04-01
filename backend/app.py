@@ -8,10 +8,14 @@ CORS(app)
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.json.get("data")
-    result = predict_user(data)
-    return jsonify({"result": result})
+    try:
+        data = request.json.get("data")
+        
+        if not data or len(data) != 4:
+            return jsonify({"error": "Invalid input"}), 400
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+        result = predict_user(data)
+        return jsonify({"result": result})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
