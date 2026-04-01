@@ -47,3 +47,7 @@ document.getElementById("analyzeBtn").addEventListener("click", async () => {
         alert("Backend error or wrong request");
     }
 });
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("inputData").value = "";
+}
