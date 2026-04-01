@@ -88,26 +88,73 @@ button:hover {
     transform: scale(1.05);
 }
 
-/* Result */
-#resultText {
+#resultBox {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    width: 300px;
+    margin: auto;
     margin-top: 20px;
-    font-size: 22px;
-    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
-#subText {
+
+#resultBox button {
     margin-top: 10px;
-    color: #aaa;
-    font-size: 14px;
+    padding: 8px 15px;
+    border: none;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#resultBox {
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-button {
-    margin-top: 20px;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
 }
 
-.glass-card {
-    transition: 0.3s;
+.popup-content {
+    background: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    color: white;
+    width: 300px;
+    animation: zoomIn 0.4s ease;
 }
 
-.glass-card:hover {
-    transform: translateY(-5px);
+@keyframes zoomIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.popup-content button {
+    margin-top: 15px;
+    padding: 8px 15px;
+    border: none;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
 }

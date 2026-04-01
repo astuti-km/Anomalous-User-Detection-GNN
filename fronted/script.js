@@ -1,34 +1,48 @@
-async function analyze() {
-  const input = document.querySelector("input").value;
+document.querySelector("button").addEventListener("click", async () => {
 
-  if (!input) {
-    alert("Please enter data");
+    let input = document.querySelector("input").value;
+    let data = input.split(",").map(Number);
+
+    if(data.length !== 4){
+    alert("⚠️ Please enter exactly 4 values (posts, followers, following, activity)");
     return;
-  }
+}
 
-  const features = input.split(",").map(Number);
-
-  try {
-    // Wake up backend first
-    await fetch("https://anomalous-backend.onrender.com");
-
-    // Wait a bit
-    await new Promise(res => setTimeout(res, 3000));
-
-    const response = await fetch("https://anomalous-backend.onrender.com/predict", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ features: features })
+    let response = await fetch("https://anomalous-user-detection-gnn.onrender.com/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            data: data
+        })
     });
 
-    const data = await response.json();
+    let result = await response.json();
 
-    localStorage.setItem("prediction", data.result);
-    window.location.href = "result.html";
+    let popup = document.getElementById("popup");
+    let text = document.getElementById("popupResult");
+    let msg = document.getElementById("popupMsg");
 
-  } catch (error) {
-    alert("Server is waking up... please try again in 5 seconds");
-  }
+    popup.style.display = "flex";
+
+    if(result.result === "Anomalous"){
+        text.innerText = "🚨 Result: Anomalous";
+        text.style.color = "red";
+        msg.innerText = "⚠️ Suspicious behavior detected!";
+    } else {
+        text.innerText = "🎉 Result: Normal";
+        text.style.color = "lightgreen";
+        msg.innerText = "✅ Congrats! User is safe.";
+
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+    }
+});
+
+function closePopup(){
+    document.getElementById("popup").style.display = "none";
 }
